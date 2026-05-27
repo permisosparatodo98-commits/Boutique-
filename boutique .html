@@ -1,0 +1,1130 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAISON G&B -- Absolute Supreme AI Suite</title>
+    <style>
+        :root {
+            --luxury-black: #09090b;
+            --luxury-gold: #c5a880;
+            --luxury-gold-hover: #b39266;
+            --luxury-white: #ffffff;
+            --luxury-gray-100: #f4f4f5;
+            --luxury-gray-200: #e4e4e7;
+            --luxury-gray-600: #52525b;
+            --luxury-red: #ef4444;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(9, 9, 11, 0.06);
+            --radius-premium: 20px;
+            --font-premium: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-premium); letter-spacing: -0.01em; }
+        
+        body { 
+            background-color: #fafafa;
+            color: var(--luxury-black);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: 90px; /* Espacio para no obstruir con la barra inferior */
+        }
+
+        .premium-ticker {
+            background: var(--luxury-black);
+            color: var(--luxury-gold);
+            font-size: 10px;
+            font-weight: 700;
+            text-align: center;
+            padding: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 2000;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .luxury-header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 6%;
+            position: fixed;
+            top: 34px; left: 0; right: 0;
+            z-index: 1900;
+            transition: var(--transition-smooth);
+        }
+        .header-main-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .luxury-brand {
+            font-size: 22px;
+            font-weight: 200;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--luxury-black);
+            cursor: pointer;
+        }
+        .luxury-brand strong { font-weight: 900; color: var(--luxury-gold); }
+        
+        .currency-dropdown {
+            background: #fff; border: 1px solid var(--luxury-gray-200);
+            padding: 6px 14px; font-size: 11px; font-weight: 700; border-radius: 30px;
+            cursor: pointer; outline: none; transition: var(--transition-smooth);
+        }
+
+        /* BARRA DE NAVEGACIÓN INFERIOR PREMIUM */
+        .bottom-luxury-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-top: 1px solid var(--glass-border);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 12px 0 calc(12px + env(safe-area-inset-bottom, 0px)) 0;
+            z-index: 2500;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.04);
+        }
+        .bottom-nav-item {
+            background: none; border: none;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 5px; cursor: pointer; position: relative;
+            color: var(--luxury-gray-600);
+            transition: var(--transition-smooth);
+        }
+        .bottom-nav-item.active {
+            color: var(--luxury-black);
+        }
+        .bottom-nav-item svg {
+            width: 22px; height: 22px;
+            fill: currentColor;
+            transition: var(--transition-smooth);
+        }
+        .bottom-nav-item.active svg {
+            fill: var(--luxury-gold);
+            transform: translateY(-2px);
+        }
+        .bottom-nav-label {
+            font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+        }
+        .bottom-cart-badge {
+            position: absolute;
+            top: 2px; right: calc(50% - 24px);
+            background: var(--luxury-black);
+            color: var(--luxury-gold);
+            font-size: 10px; font-weight: 900;
+            min-width: 18px; height: 18px; padding: 0 4px;
+            border-radius: 50%; display: flex;
+            align-items: center; justify-content: center;
+        }
+
+        .category-pipeline {
+            display: flex; justify-content: center; gap: 30px; margin-top: 12px;
+            border-top: 1px solid rgba(0,0,0,0.03); padding-top: 12px;
+            transition: var(--transition-smooth);
+        }
+        .pipeline-btn {
+            background: none; border: none; font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2px; color: var(--luxury-gray-600);
+            cursor: pointer; transition: var(--transition-smooth);
+        }
+        .pipeline-btn.active { color: var(--luxury-black); font-weight: 900; }
+
+        .luxury-scope {
+            max-width: 1400px; width: 100%;
+            margin: 155px auto 40px auto; padding: 0 4%;
+            flex: 1;
+            position: relative;
+            transition: var(--transition-smooth);
+        }
+
+        .view-canvas { 
+            display: none; 
+            opacity: 0;
+        }
+        .view-canvas.active { 
+            display: block; 
+            animation: elegantFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes elegantFadeIn { 
+            from { opacity: 0; transform: scale(0.99); } 
+            to { opacity: 1; transform: scale(1); } 
+        }
+
+        /* DROP FLASH BANNER */
+        .drop-flash-banner {
+            background: linear-gradient(135deg, #1e1b4b, #311042);
+            color: #fff; padding: 25px 30px; border-radius: var(--radius-premium);
+            margin-bottom: 30px; display: flex; flex-direction: column; gap: 15px;
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.15);
+        }
+        @media(min-width: 768px) { .drop-flash-banner { flex-direction: row; align-items: center; justify-content: space-between; } }
+        .drop-info h5 { font-size: 11px; font-weight: 800; letter-spacing: 2px; color: var(--luxury-gold); text-transform: uppercase; margin-bottom: 4px; }
+        .drop-info h3 { font-size: 20px; font-weight: 300; }
+        .drop-countdown { display: flex; gap: 15px; }
+        .countdown-segment { text-align: center; background: rgba(0,0,0,0.3); padding: 10px 15px; border-radius: 10px; min-width: 100px; }
+        .countdown-segment span { display: block; font-size: 18px; font-weight: 800; color: var(--luxury-gold); }
+        .countdown-segment label { font-size: 9px; text-transform: uppercase; color: #c7d2fe; }
+
+        /* VIRTUAL MIRROR */
+        .fitting-room-layout {
+            display: grid; grid-template-columns: 1fr; gap: 30px; margin-bottom: 40px;
+        }
+        @media(min-width: 992px) { .fitting-room-layout { grid-template-columns: 1fr 2fr; } }
+        
+        .mirror-canvas {
+            background: #fff; border: 1px solid var(--luxury-gray-200); border-radius: var(--radius-premium);
+            padding: 30px; display: flex; flex-direction: column; gap: 15px; align-items: center; justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02); min-height: 520px; position: sticky; top: 110px;
+        }
+        .mirror-slot {
+            width: 120px; height: 145px; border: 1px dashed var(--luxury-gold); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; background: #fafafa; overflow: hidden;
+            position: relative; transition: var(--transition-smooth);
+        }
+        .mirror-slot img { width: 100%; height: 100%; object-fit: cover; }
+        .mirror-slot span { font-size: 11px; font-weight: 700; color: var(--luxury-gold); text-transform: uppercase; text-align: center; padding: 10px; }
+
+        .selector-rack-box { display: flex; flex-direction: column; gap: 25px; }
+        .rack-row-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid var(--luxury-gray-200); padding-bottom: 8px; color: var(--luxury-gray-600); }
+        .rack-scroller { display: flex; gap: 15px; overflow-x: auto; padding: 10px 5px; scrollbar-width: none; }
+        .rack-scroller::-webkit-scrollbar { display: none; }
+        .rack-thumb-card {
+            background: #fff; border: 1px solid var(--luxury-gray-200); border-radius: 14px;
+            padding: 10px; min-width: 120px; text-align: center; cursor: pointer; transition: var(--transition-smooth);
+        }
+        .rack-thumb-card.selected { border-color: var(--luxury-black); background: #fdfbf7; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+        .rack-thumb-img { width: 100px; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 8px; }
+        .rack-thumb-name { font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* CONCIERGE IA */
+        .ai-concierge-panel {
+            background: linear-gradient(135deg, #18181b, #09090b); color: #fff;
+            padding: 25px 30px; border-radius: var(--radius-premium); margin-bottom: 35px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 15px;
+        }
+        @media(min-width: 768px) { .ai-concierge-panel { flex-direction: row; align-items: center; justify-content: space-between; } }
+        .ai-info h4 { font-size: 16px; font-weight: 300; letter-spacing: 1px; color: var(--luxury-gold); margin-bottom: 4px;}
+        .ai-info p { font-size: 13px; color: #a1a1aa; font-weight: 300; }
+        .ai-interaction { display: flex; gap: 12px; flex: 1; max-width: 600px; width: 100%; }
+        .ai-input {
+            flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px; padding: 14px 22px; color: #fff; font-size: 13px; outline: none;
+            transition: var(--transition-smooth);
+        }
+        .ai-input:focus { border-color: var(--luxury-gold); background: rgba(255,255,255,0.1); }
+        .ai-btn {
+            background: var(--luxury-gold); color: var(--luxury-black); border: none;
+            padding: 0 25px; border-radius: 30px; font-size: 12px; font-weight: 700;
+            text-transform: uppercase; cursor: pointer; transition: var(--transition-smooth);
+        }
+        .ai-btn:hover { background: #fff; }
+
+        .curated-controls { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 40px; }
+        @media(min-width: 768px) { .curated-controls { grid-template-columns: 2fr 1fr; align-items: center; } }
+        .luxury-search { width: 100%; padding: 18px 26px; border: 1px solid var(--luxury-gray-200); border-radius: 40px; font-size: 14px; outline: none; background: #fff; transition: var(--transition-smooth); }
+        .luxury-search:focus { border-color: var(--luxury-black); }
+        .luxury-chips { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+        .luxury-chips::-webkit-scrollbar { display: none; }
+        .chip { background: #fff; border: 1px solid var(--luxury-gray-200); padding: 10px 22px; border-radius: 40px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: var(--transition-smooth); }
+        .chip.active { background: var(--luxury-black); color: #fff; border-color: var(--luxury-black); }
+
+        .couture-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        @media(min-width: 768px) { .couture-grid { grid-template-columns: repeat(4, 1fr); gap: 35px; } }
+
+        .luxury-card { background: var(--luxury-white); border-radius: var(--radius-premium); overflow: hidden; display: flex; flex-direction: column; position: relative; transition: var(--transition-smooth); }
+        .luxury-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(9,9,11,0.04); }
+        .card-media-vault { position: relative; width: 100%; overflow: hidden; background: #f0f0f2; }
+        .card-img { width: 100%; height: 280px; object-fit: cover; display: block; transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .luxury-card:hover .card-img { transform: scale(1.05); }
+        @media(min-width: 768px) { .card-img { height: 380px; } }
+
+        .editorial-badge { position: absolute; top: 15px; left: 15px; background: var(--luxury-black); color: var(--luxury-gold); font-size: 9px; font-weight: 700; padding: 5px 10px; text-transform: uppercase; letter-spacing: 1.5px; border-radius: 4px; }
+        .editorial-badge.limited { background: var(--luxury-gold); color: #fff; }
+
+        .wish-action-trigger { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: var(--transition-smooth); }
+        .wish-action-trigger.active { color: var(--luxury-red); background: #fff; transform: scale(1.1); }
+
+        .card-details-vault { padding: 20px 5px; display: flex; flex-direction: column; flex: 1; }
+        .luxury-reviews { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: var(--luxury-gray-600); margin-bottom: 8px; }
+        .star-gold { color: var(--luxury-gold); }
+        .luxury-product-title { font-size: 14px; font-weight: 600; color: var(--luxury-black); margin-bottom: 8px; line-height: 1.4; height: 40px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .luxury-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 15px; }
+        .price-current { color: var(--luxury-black); font-weight: 700; font-size: 16px; }
+        
+        .luxury-size-row { display: flex; gap: 6px; margin-bottom: 15px; flex-wrap: wrap; }
+        .luxury-size-btn { border: 1px solid var(--luxury-gray-200); background: #fff; width: 34px; height: 34px; border-radius: 50%; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition-smooth); }
+        .luxury-size-btn.selected { border-color: var(--luxury-black); background: var(--luxury-black); color: #fff; }
+        .ai-size-link { font-size: 11px; color: var(--luxury-gold); text-decoration: underline; background: none; border: none; cursor: pointer; text-align: left; margin-bottom: 15px; font-weight: 600; outline: none; }
+        
+        .luxury-btn-add { background: transparent; color: var(--luxury-black); border: 1px solid var(--luxury-black); width: 100%; padding: 12px; border-radius: 30px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; transition: var(--transition-smooth); margin-top: auto; }
+        .luxury-btn-add:hover { background: var(--luxury-black); color: #fff; }
+        .instant-chat-anchor { position: absolute; bottom: 15px; right: 15px; background: rgba(255,255,255,0.95); border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+
+        /* MODALES */
+        .ai-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); z-index: 3000; display: none; align-items: center; justify-content: center; }
+        .ai-modal { background: #fff; padding: 35px; border-radius: var(--radius-premium); max-width: 450px; width: 90%; box-shadow: 0 30px 60px rgba(0,0,0,0.2); animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); max-height: 85vh; overflow-y: auto; }
+        @keyframes scaleUp { from { transform: scale(0.9) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+        .modal-title { font-size: 18px; font-weight: 300; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
+        .modal-title strong { color: var(--luxury-gold); font-weight: 800; }
+
+        /* VISTA DE CARRITO */
+        .cart-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
+        @media(min-width: 992px) { .cart-layout { grid-template-columns: 2fr 1fr; } }
+        .cart-item { display: flex; background: #fff; padding: 20px; border-radius: var(--radius-premium); margin-bottom: 18px; align-items: center; gap: 22px; border: 1px solid rgba(0,0,0,0.02); }
+        .cart-item-img { width: 90px; height: 125px; object-fit: cover; border-radius: 12px; }
+        .cart-item-details { flex: 1; }
+        .cart-item-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        .cart-item-meta { font-size: 12px; color: var(--luxury-gray-600); margin-bottom: 10px; }
+        .cart-item-price { font-size: 16px; font-weight: 800; color: var(--luxury-gold); }
+        .cart-item-remove { background: none; border: none; font-size: 20px; cursor: pointer; color: #ccc; transition: var(--transition-smooth); }
+        .cart-item-remove:hover { color: var(--luxury-red); }
+
+        .ai-cross-box { background: #fdfbf7; border: 1px dashed var(--luxury-gold); padding: 15px; border-radius: 12px; margin-top: 15px; display: flex; align-items: center; gap: 15px; }
+        .ai-cross-thumb { width: 50px; height: 65px; object-fit: cover; border-radius: 6px; }
+
+        .luxury-invoice-card { background: #fff; padding: 35px; border-radius: var(--radius-premium); border: 1px solid var(--luxury-gray-200); height: fit-content; position: sticky; top: 110px; }
+        .invoice-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; }
+        .promo-chamber { display: flex; gap: 10px; margin-bottom: 25px; }
+        .promo-input { flex: 1; padding: 14px; border: 1px dashed var(--luxury-gold); border-radius: 30px; outline: none; font-weight: 700; color: var(--luxury-gold); text-align: center; text-transform: uppercase; background: #fffdf9; }
+        .promo-btn { background: var(--luxury-black); color: #fff; border: none; padding: 0 24px; border-radius: 30px; font-weight: 700; font-size: 12px; cursor: pointer; }
+
+        .invoice-row { display: flex; justify-content: space-between; margin-bottom: 14px; font-size: 14px; color: var(--luxury-gray-600); }
+        .invoice-total { font-size: 22px; font-weight: 300; color: var(--luxury-black); border-top: 1px solid var(--luxury-gray-200); padding-top: 20px; margin-top: 20px; }
+        .invoice-total strong { font-weight: 800; color: var(--luxury-gold); }
+
+        .concierge-form { background: #fff; padding: 35px; border-radius: var(--radius-premium); margin-top: 25px; border: 1px solid rgba(0,0,0,0.03); display: none; }
+        .concierge-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media(min-width:768px) { .concierge-grid { grid-template-columns: 1fr 1fr; } }
+        .field-box { display: flex; flex-direction: column; gap: 6px; }
+        .field-box label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--luxury-gray-600); }
+        .field-box label span { color: var(--luxury-red); }
+        .luxury-input { padding: 14px 20px; border: 1px solid var(--luxury-gray-200); border-radius: 12px; font-size: 14px; outline: none; background: #fafafa; transition: var(--transition-smooth); }
+        .luxury-input:focus { border-color: var(--luxury-black); background: #fff; }
+
+        .luxury-btn-submit { background: var(--luxury-black); color: var(--luxury-white); border: none; width: 100%; padding: 18px; border-radius: 40px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; margin-top: 25px; transition: var(--transition-smooth); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .luxury-btn-submit:hover { background: var(--luxury-gold); }
+        .luxury-btn-submit:disabled { background: #d4d4d8; cursor: not-allowed; box-shadow: none; color: #a1a1aa; }
+
+        #luxury-toast-vault { position: fixed; bottom: 100px; right: 30px; left: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 12px; }
+        @media (min-width: 540px) { #luxury-toast-vault { left: auto; width: 380px; } }
+        .luxury-toast { background: var(--luxury-black); color: #fff; border: 1px solid rgba(255,255,255,0.1); padding: 18px 24px; border-radius: 14px; font-size: 13px; font-weight: 500; box-shadow: 0 20px 50px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: space-between; animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .luxury-toast.fade-out { animation: slideDownOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
+        .admin-table th, .admin-table td { padding: 10px; border: 1px solid var(--luxury-gray-200); text-align: left; }
+        .admin-table th { background: var(--luxury-gray-100); font-weight: 700; }
+        
+        .ai-match-rate { font-size: 11px; font-weight: 700; color: var(--luxury-gold); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+    </style>
+</head>
+<body>
+
+<div class="premium-ticker" ondblclick="abrirAdminPanel()" onclick="triggerToast('👑 Tip de Atelier: Doble clic aquí para ver analíticas.')">👑 MAISON G&B -- ABSOLUTE SUPREME AI SUITE v12.6</div>
+
+<header class="luxury-header">
+    <div class="header-main-row">
+        <span class="luxury-brand" onclick="switchTab('shop')">Maison <strong>G&B</strong></span>
+        <select id="currency-dropdown" class="currency-dropdown" onchange="alterarDivisa(this.value)">
+            <option value="CUP">CUP ($)</option>
+            <option value="USD">USD ($)</option>
+            <option value="MLC">MLC</option>
+            <option value="EUR">EUR (€)</option>
+        </select>
+    </div>
+    
+    <div class="category-pipeline" id="header-pipeline-sub">
+        <button class="pipeline-btn active" id="pipe-mujer" onclick="alterarPipeline('mujer')">Femme</button>
+        <button class="pipeline-btn" id="pipe-hombre" onclick="alterarPipeline('hombre')">Homme</button>
+        <button class="pipeline-btn" id="pipe-calzado" onclick="alterarPipeline('calzado')">Souliers</button>
+    </div>
+</header>
+
+<nav class="bottom-luxury-nav">
+    <button class="bottom-nav-item active" id="nav-shop" onclick="switchTab('shop')">
+        <svg viewBox="0 0 24 24">
+            <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-8-2h4v2h-4V4zm8 15H4V8h16v11z"/>
+        </svg>
+        <span class="bottom-nav-label">Boutique</span>
+    </button>
+    
+    <button class="bottom-nav-item" id="nav-mirror" onclick="switchTab('mirror')">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+        </svg>
+        <span class="bottom-nav-label">Probador</span>
+    </button>
+    
+    <button class="bottom-nav-item" id="nav-cart" onclick="switchTab('cart')">
+        <svg viewBox="0 0 24 24">
+            <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+        </svg>
+        <div id="cart-badge" class="bottom-cart-badge">0</div>
+        <span class="bottom-nav-label">Carrito</span>
+    </button>
+</nav>
+
+<main class="luxury-scope" id="main-scope">
+
+    <div id="shop-screen" class="view-canvas active">
+        <div class="drop-flash-banner" id="drop-banner">
+            <div class="drop-info">
+                <h5>Drop Especial en Tiempo Real</h5>
+                <h3 id="drop-item-title">Reloj Imperial Chrono S2</h3>
+                <p style="font-size: 12px; color: #c7d2fe; margin-top: 4px;">⚡ Exclusividad dinámica: El precio cae un 1% cada 10 segundos automáticamente.</p>
+            </div>
+            <div class="drop-countdown">
+                <div class="countdown-segment"><span id="drop-price-display">0.00</span><label id="drop-currency-label">CUP</label></div>
+                <div class="countdown-segment"><span id="drop-timer">10</span><label>Segs</label></div>
+            </div>
+        </div>
+
+        <div class="ai-concierge-panel">
+            <div class="ai-info">
+                <h4>Asesor de Imagen Inteligente</h4>
+                <p id="ai-status-text">Intenta buscando: "lino fresco", "gala de noche" o usa el truco "MAISONAI".</p>
+            </div>
+            <div class="ai-interaction">
+                <input type="text" id="ai-query-input" class="ai-input" placeholder="¿Qué estilo conceptual estás buscando hoy?...">
+                <button class="ai-btn" onclick="procesarAsesoramientoIA()">Consultar</button>
+            </div>
+        </div>
+
+        <div class="curated-controls">
+            <input type="text" id="luxury-search-input" class="luxury-search" placeholder="Buscar silueta, material, temporada..." onkeyup="ejecutarFiltroCombinado()">
+            <div class="luxury-chips">
+                <button class="chip active" id="chip-all" onclick="setChipFilter('todos')">Ver Todo</button>
+                <button class="chip" id="chip-new" onclick="setChipFilter('nuevo')">Novedades</button>
+                <button class="chip" id="chip-hot" onclick="setChipFilter('popular')">Piezas de Deseo</button>
+                <button class="chip" id="chip-fav" onclick="setChipFilter('favoritos')">Mi Lista Privada ❤️</button>
+            </div>
+        </div>
+        
+        <div id="couture-grid-target" class="couture-grid"></div>
+    </div>
+
+    <div id="mirror-screen" class="view-canvas">
+        <div class="fitting-room-layout">
+            <div class="mirror-canvas">
+                <div class="invoice-title" style="margin-bottom:10px;">Espejo Virtual</div>
+                <div class="mirror-slot" id="slot-top"><span>Superior<br>No Elegido</span></div>
+                <div class="mirror-slot" id="slot-bottom"><span>Inferior<br>No Elegido</span></div>
+                <div class="mirror-slot" id="slot-foot"><span>Souliers<br>No Elegido</span></div>
+                <button class="luxury-btn-submit" id="btn-fitting-add-all" style="margin-top:15px;" onclick="addOutfitCompletoACarrito()" disabled>Añadir Look al Carrito</button>
+            </div>
+            <div class="selector-rack-box">
+                <div>
+                    <div class="rack-row-title">Prendas Superiores</div>
+                    <div class="rack-scroller" id="rack-top"></div>
+                </div>
+                <div>
+                    <div class="rack-row-title">Prendas Inferiores / Conjuntos</div>
+                    <div class="rack-scroller" id="rack-bottom"></div>
+                </div>
+                <div>
+                    <div class="rack-row-title">Calzado Elegible</div>
+                    <div class="rack-scroller" id="rack-foot"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cart-screen" class="view-canvas">
+        <div class="cart-layout">
+            <div>
+                <div id="cart-items-target"></div>
+                <div id="concierge-form-target" class="concierge-form">
+                    <div class="invoice-title">📋 Dirección de Entrega y Concierge</div>
+                    <div class="concierge-grid">
+                        <div class="field-box">
+                            <label>Nombre Completo <span>*</span></label>
+                            <input type="text" id="c-name" class="luxury-input" oninput="persistForm()">
+                        </div>
+                        <div class="field-box">
+                            <label>Línea Móvil Directa <span>*</span></label>
+                            <input type="tel" id="c-phone" class="luxury-input" oninput="persistForm()">
+                        </div>
+                        <div class="field-box">
+                            <label>Dirección Completa de Destino <span>*</span></label>
+                            <input type="text" id="c-address" class="luxury-input" oninput="persistForm()">
+                        </div>
+                        <div class="field-box">
+                            <label>Puntos de Referencia Urbanos</label>
+                            <input type="text" id="c-ref" class="luxury-input" oninput="persistForm()">
+                        </div>
+                    </div>
+                    <div class="field-box" style="margin-top:20px;">
+                        <label>Instrucciones Especiales / Notas de Modas</label>
+                        <input type="text" id="c-notes" class="luxury-input" oninput="persistForm()">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="luxury-invoice-card">
+                <div class="invoice-title">Detalle del Carrito</div>
+                <div class="promo-chamber">
+                    <input type="text" id="promo-code" class="promo-input" placeholder="CÓDIGO PRIVADO">
+                    <button class="promo-btn" onclick="aplicarPromocion()">Validar</button>
+                </div>
+                <div class="invoice-data-vault">
+                    <div class="invoice-row"><span>Valor de Selección:</span><span id="inv-subtotal">0.00</span></div>
+                    <div class="invoice-row" id="inv-promo-row" style="display:none; color: var(--luxury-gold); font-weight:700;"><span>Privilegio Cupón:</span><span id="inv-promo-val">-0.00</span></div>
+                    <div class="invoice-row"><span>Logística Maison:</span><span style="color: #10b981; font-weight: 700; text-transform:uppercase;">Garantizado Express</span></div>
+                    <div class="invoice-row invoice-total"><span>Monto Neto total:</span><span id="inv-final"><strong>0.00</strong></span></div>
+                </div>
+                <button class="luxury-btn-submit" id="luxury-master-submit" onclick="avanzarFlujoBoutique()">Proceder al Pago</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="ai-size-modal" class="ai-modal-overlay" onclick="cerrarPredictorTallasIA()">
+    <div class="ai-modal" onclick="event.stopPropagation()">
+        <h3 class="modal-title">Predictor de Tallas <strong>IA</strong></h3>
+        <p style="font-size:13px; color:var(--luxury-gray-600); margin-bottom:20px;">Cálculo inteligente de patronaje en tiempo real.</p>
+        <div style="display:flex; flex-direction:column; gap:15px;">
+            <div class="field-box">
+                <label>Estatura (cm)</label>
+                <input type="number" id="ai-height" class="luxury-input" value="172">
+            </div>
+            <div class="field-box">
+                <label>Peso Corporal (kg)</label>
+                <input type="number" id="ai-weight" class="luxury-input" value="68">
+            </div>
+            <div class="field-box">
+                <label>Preferencia de Ajuste</label>
+                <select id="ai-fit" class="luxury-input">
+                    <option value="fitted">Sartorial / Ajustado</option>
+                    <option value="regular" selected>Regular / Equilibrado</option>
+                    <option value="oversized">Oversized / Suelto</option>
+                </select>
+            </div>
+            <button class="luxury-btn-submit" style="margin-top:10px;" onclick="ejecutarCalculoTallaIA()">Calcular Estructura</button>
+            <div id="ai-size-result" style="margin-top:15px; text-align:center; font-size:16px; font-weight:700; color:var(--luxury-gold); display:none;"></div>
+        </div>
+    </div>
+</div>
+
+<div id="admin-modal" class="ai-modal-overlay" onclick="cerrarAdminPanel()">
+    <div class="ai-modal" onclick="event.stopPropagation()" style="max-width: 600px;">
+        <h3 class="modal-title">Atelier **Analytics Dashboard** 📊</h3>
+        <p style="font-size:12px; color:var(--luxury-gray-600); margin-bottom:15px;">Métricas de interacción simuladas en caliente en el cliente.</p>
+        
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-bottom:20px; text-align:center;">
+            <div style="background:var(--luxury-gray-100); padding:10px; border-radius:10px;"><strong style="font-size:16px; color:var(--luxury-gold);" id="meta-clicks-ia">0</strong><div style="font-size:9px; text-transform:uppercase;">Consultas IA</div></div>
+            <div style="background:var(--luxury-gray-100); padding:10px; border-radius:10px;"><strong style="font-size:16px;" id="meta-items-bag">0</strong><div style="font-size:9px; text-transform:uppercase;">Prendas en Carrito</div></div>
+            <div style="background:var(--luxury-gray-100); padding:10px; border-radius:10px;"><strong style="font-size:16px; color:var(--luxury-red);" id="meta-items-fav">0</strong><div style="font-size:9px; text-transform:uppercase;">Artículos Favs</div></div>
+        </div>
+
+        <table class="admin-table">
+            <thead>
+                <tr><th>ID</th><th>Prenda</th><th>Clicks Añadir</th></tr>
+            </thead>
+            <tbody id="admin-table-body"></tbody>
+        </table>
+        <button class="luxury-btn-submit" style="margin-top:20px;" onclick="cerrarAdminPanel()">Cerrar Panel</button>
+    </div>
+</div>
+
+<div id="luxury-toast-vault"></div>
+
+<script>
+    const COUTURE_PHONE = "5359515799"; 
+    const CUADRO_DIVISAS = { CUP: 350, USD: 1, MLC: 1.10, EUR: 0.92 };
+
+    let divisaActiva = 'CUP';
+    let chipFiltroActivo = 'todos';
+    let pipelineActivo = 'mujer';
+    let aiScoringMap = null; 
+    let targetProductIdForSizeAI = null;
+
+    let clicksConsultasIA = parseInt(localStorage.getItem('m12_metric_ia')) || 0;
+    let registroClicksProductos = JSON.parse(localStorage.getItem('m12_metric_prods')) || {};
+
+    let dropBaseUSD = 120; 
+    let dropCurrentUSD = 120;
+    let dropTimeLeft = 10;
+
+    const VAULT_PRODUCTOS = {
+        mujer: [
+            { id: 101, name: 'Vestido Seda Atemporal de Gala', priceUSD: 45, img: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500', sizes: ['S','M','L'], tag: 'nuevo', keywords: ['seda', 'gala', 'vestido', 'noche', 'elegante'], type: 'top' },
+            { id: 102, name: 'Blusa Gasa Italiana Premium', priceUSD: 24, img: 'https://images.unsplash.com/photo-1554412933-514a83d2f3c8?w=500', sizes: ['M','L'], tag: 'popular', keywords: ['blusa', 'gasa', 'blanco', 'fresco', 'lino'], type: 'top' },
+            { id: 103, name: 'Falda Plisada Ébano Couture', priceUSD: 29, img: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=500', sizes: ['S','M'], tag: '', keywords: ['falda', 'plisada', 'negro', 'casual'], type: 'bottom' },
+            { id: 104, name: 'Enterizo Lino Fresco Minimalista', priceUSD: 38, img: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500', sizes: ['S','M','L'], tag: 'nuevo', keywords: ['lino', 'fresco', 'enterizo', 'verano'], type: 'bottom' }
+        ],
+        hombre: [
+            { id: 201, name: 'Camisa Lino Imperial de Verano', priceUSD: 32, img: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500', sizes: ['M','L','XL'], tag: 'nuevo', keywords: ['camisa', 'lino', 'verano', 'fresco', 'blanco'], type: 'top' },
+            { id: 202, name: 'Pantalón Chino Slim Estructurado', priceUSD: 35, img: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=500', sizes: ['32','34','36'], tag: 'popular', keywords: ['pantalon', 'chino', 'hombre', 'casual'], type: 'bottom' },
+            { id: 203, name: 'Chaqueta Ejecutiva Premium Navy', priceUSD: 55, img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500', sizes: ['M','L','XL'], tag: 'popular', keywords: ['chaqueta', 'saco', 'formal', 'oficina', 'boda'], type: 'top' },
+            { id: 204, name: 'Bermuda Texturizada Confort Lino', priceUSD: 22, img: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=500', sizes: ['30','32','34'], tag: '', keywords: ['bermuda', 'lino', 'short', 'playa', 'fresco'], type: 'bottom' }
+        ],
+        calzado: [
+            { id: 301, name: 'Stilettos Tacón Alto de Gala', priceUSD: 42, img: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500', sizes: ['36','37','38','39'], tag: 'popular', keywords: ['tacon', 'boda', 'stilettos', 'mujer', 'negro'], type: 'foot' },
+            { id: 302, name: 'Tenis Urban Leather Minimalist', priceUSD: 48, img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500', sizes: ['40','41','42','43'], tag: 'nuevo', keywords: ['tenis', 'cuero', 'sneakers', 'blanco', 'urban'], type: 'foot' },
+            { id: 303, name: 'Mocasines Gamuza Riviera Loafers', priceUSD: 50, img: 'https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=500', sizes: ['40','41','42','44'], tag: 'nuevo', keywords: ['mocasines', 'gamuza', 'zapatos', 'hombre', 'elegante'], type: 'foot' },
+            { id: 304, name: 'Sandalias Plataforma Sunset Gold', priceUSD: 28, img: 'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=500', sizes: ['36','37','38'], tag: '', keywords: ['sandalias', 'plataforma', 'verano', 'playa'], type: 'foot' }
+        ]
+    };
+
+    let selectedSizesState = JSON.parse(localStorage.getItem('m12_sizes')) || { 101:'M', 102:'M', 103:'S', 104:'M', 201:'L', 202:'34', 203:'L', 204:'32', 301:'37', 302:'42', 303:'41', 304:'37' };
+    let wishlist = JSON.parse(localStorage.getItem('m12_wishlist')) || [];
+    let cart = JSON.parse(localStorage.getItem('m12_cart')) || [];
+    let promoDeduccion = parseFloat(localStorage.getItem('m12_promo')) || 0;
+    let stageFormularioActivo = false;
+    let outfitProbadorState = { top: null, bottom: null, foot: null };
+
+    function triggerToast(msg) {
+        const vault = document.getElementById('luxury-toast-vault');
+        if (!vault) return;
+        const toast = document.createElement('div');
+        toast.className = 'luxury-toast';
+        toast.innerHTML = `<span>${msg}</span>`;
+        vault.appendChild(toast);
+        setTimeout(() => {
+            toast.classList.add('fade-out');
+            toast.addEventListener('animationend', () => toast.remove());
+        }, 3000);
+    }
+
+    function inicializarRelojDrop() {
+        setInterval(() => {
+            dropTimeLeft--;
+            if(dropTimeLeft <= 0) {
+                dropTimeLeft = 10;
+                dropCurrentUSD = dropCurrentUSD * 0.99;
+                if(dropCurrentUSD < dropBaseUSD * 0.6) { dropCurrentUSD = dropBaseUSD; }
+            }
+            const timerEl = document.getElementById('drop-timer');
+            if(timerEl) timerEl.innerText = dropTimeLeft;
+            actualizarMuestreoDrop();
+        }, 1000);
+    }
+
+    function actualizarMuestreoDrop() {
+        const priceDisp = document.getElementById('drop-price-display');
+        const currLabel = document.getElementById('drop-currency-label');
+        if(priceDisp) priceDisp.innerText = formatLuxuryPrice(dropCurrentUSD).split(' ')[0];
+        if(currLabel) currLabel.innerText = divisaActiva;
+    }
+
+    function renderRackProbador() {
+        const rackTop = document.getElementById('rack-top');
+        const rackBottom = document.getElementById('rack-bottom');
+        const rackFoot = document.getElementById('rack-foot');
+        if(!rackTop || !rackBottom || !rackFoot) return;
+
+        rackTop.innerHTML = ''; rackBottom.innerHTML = ''; rackFoot.innerHTML = '';
+        const universoCompleto = [...VAULT_PRODUCTOS.mujer, ...VAULT_PRODUCTOS.hombre, ...VAULT_PRODUCTOS.calzado];
+
+        universoCompleto.forEach(prod => {
+            const cardHTML = `
+                <div class="rack-thumb-card ${isProdInOutfit(prod.id) ? 'selected' : ''}" onclick="seleccionarPrendaProbador(${prod.id}, '${prod.type}')">
+                    <img src="${prod.img}" class="rack-thumb-img">
+                    <div class="rack-thumb-name">${prod.name}</div>
+                </div>
+            `;
+            if(prod.type === 'top') rackTop.innerHTML += cardHTML;
+            if(prod.type === 'bottom') rackBottom.innerHTML += cardHTML;
+            if(prod.type === 'foot') rackFoot.innerHTML += cardHTML;
+        });
+    }
+
+    function seleccionarPrendaProbador(id, tipo) {
+        const item = rastrearMatrizProducto(id);
+        if(!item) return;
+        outfitProbadorState[tipo] = item;
+        const slot = document.getElementById(`slot-${tipo}`);
+        if(slot) slot.innerHTML = `<img src="${item.img}" style="width:100%; height:100%; object-fit:cover;">`;
+        
+        const btnAll = document.getElementById('btn-fitting-add-all');
+        if(btnAll) btnAll.disabled = false;
+        
+        renderRackProbador();
+        triggerToast(`👗 Añadido al Espejo: ${item.name}`);
+    }
+
+    function isProdInOutfit(id) {
+        return (outfitProbadorState.top && outfitProbadorState.top.id === id) ||
+               (outfitProbadorState.bottom && outfitProbadorState.bottom.id === id) ||
+               (outfitProbadorState.foot && outfitProbadorState.foot.id === id);
+    }
+
+    function addOutfitCompletoACarrito() {
+        let cont = 0;
+        ['top', 'bottom', 'foot'].forEach(tipo => {
+            if(outfitProbadorState[tipo]) {
+                const prod = outfitProbadorState[tipo];
+                const tallaEstablecida = selectedSizesState[prod.id] || prod.sizes[0];
+                
+                registroClicksProductos[prod.id] = (registroClicksProductos[prod.id] || 0) + 1;
+                cart.push({ ...prod, sizeChosen: tallaEstablecida });
+                cont++;
+            }
+        });
+        if(cont > 0) {
+            localStorage.setItem('m12_metric_prods', JSON.stringify(registroClicksProductos));
+            localStorage.setItem('m12_cart', JSON.stringify(cart));
+            actualizarCarrito();
+            triggerToast(`🛒 Éxito: Se enviaron ${cont} piezas a tu carrito.`);
+            switchTab('cart');
+        }
+    }
+
+    function procesarAsesoramientoIA() {
+        const queryInput = document.getElementById('ai-query-input');
+        const statusText = document.getElementById('ai-status-text');
+        if(!queryInput || !statusText) return;
+
+        const inputRaw = queryInput.value.trim().toLowerCase();
+        clicksConsultasIA++;
+        localStorage.setItem('m12_metric_ia', clicksConsultasIA);
+
+        if(!inputRaw) { aiScoringMap = null; ejecutarFiltroCombinado(); return; }
+
+        if(inputRaw.includes('maisonai')) {
+            statusText.innerHTML = `🎟️ *CÓDIGO DE HONOR DESBLOQUEADO:* Introduce *AI10* en el carrito para obtener un 10% de gracia sartorial.`;
+            triggerToast("🎁 Secreto Encontrado: ¡Cupón exclusivo liberado!");
+            return;
+        }
+
+        const tokens = inputRaw.split(/[\s,.\-_/]+/).filter(t => t.length > 2);
+        let coincidenciasEncontradas = 0;
+        let scoreTemporal = {};
+        const universoCompleto = [...VAULT_PRODUCTOS.mujer, ...VAULT_PRODUCTOS.hombre, ...VAULT_PRODUCTOS.calzado];
+        
+        universoCompleto.forEach(prod => {
+            let matches = 0;
+            tokens.forEach(token => {
+                if(prod.name.toLowerCase().includes(token)) matches += 2;
+                prod.keywords.forEach(kw => { if(kw.includes(token)) matches += 1; });
+            });
+            if(matches > 0) { scoreTemporal[prod.id] = matches; coincidenciasEncontradas++; }
+        });
+
+        if(coincidenciasEncontradas > 0) {
+            aiScoringMap = scoreTemporal;
+            statusText.innerHTML = `✨ *IA:* He seleccionado las mejores opciones basándome en tu concepto de estilo.`;
+            triggerToast("🧠 Patrones reorganizados por afinidad.");
+        } else {
+            aiScoringMap = null;
+            statusText.innerHTML = `⚠️ *IA:* No encontré similitud exacta. Prueba con 'lino', 'gala', 'fresco'.`;
+        }
+        ejecutarFiltroCombinado();
+    }
+
+    function abrirPredictorTallasIA(prodId) {
+        targetProductIdForSizeAI = prodId;
+        const resBox = document.getElementById('ai-size-result');
+        const modal = document.getElementById('ai-size-modal');
+        if(resBox) resBox.style.display = 'none';
+        if(modal) modal.style.display = 'flex';
+    }
+    function cerrarPredictorTallasIA() { 
+        const modal = document.getElementById('ai-size-modal');
+        if(modal) modal.style.display = 'none'; 
+    }
+    
+    function ejecutarCalculoTallaIA() {
+        const hEl = document.getElementById('ai-height');
+        const wEl = document.getElementById('ai-weight');
+        if(!hEl || !wEl) return;
+
+        const h = parseFloat(hEl.value);
+        const w = parseFloat(wEl.value);
+        const item = rastrearMatrizProducto(targetProductIdForSizeAI);
+
+        if(!h || !w || !item) return;
+        const imc = w / ((h / 100) ** 2);
+        let tallaSugerida = 'M';
+
+        if(item.sizes.includes('S') || item.sizes.includes('M')) {
+            if(imc < 21) tallaSugerida = 'S';
+            else if(imc >= 21 && imc <= 25) tallaSugerida = 'M';
+            else tallaSugerida = 'L';
+        } else {
+            if(h < 170) tallaSugerida = '37';
+            else if(h >= 170 && h <= 180) tallaSugerida = '41';
+            else tallaSugerida = '43';
+        }
+
+        const resBox = document.getElementById('ai-size-result');
+        if(resBox) {
+            resBox.innerHTML = `📐 Dimensión Estructural IA: <strong>${tallaSugerida}</strong>`;
+            resBox.style.display = 'block';
+        }
+
+        definirTalla(targetProductIdForSizeAI, tallaSugerida);
+        setTimeout(() => cerrarPredictorTallasIA(), 1200);
+    }
+
+    function calcularLookComplementario(articulo) {
+        let pool = (pipelineActivo === 'mujer') ? VAULT_PRODUCTOS.calzado : VAULT_PRODUCTOS.mujer;
+        return pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    function formatLuxuryPrice(valUSD) {
+        const factor = CUADRO_DIVISAS[divisaActiva] || 1;
+        const finalCalculated = valUSD * factor;
+        if(divisaActiva === 'EUR') return finalCalculated.toLocaleString('de-DE', { minimumFractionDigits: 2 }) + ' €';
+        return finalCalculated.toLocaleString('en-US', { minimumFractionDigits: 2 }) + ' ' + divisaActiva;
+    }
+
+    function alterarDivisa(nuevaDivisa) {
+        divisaActiva = nuevaDivisa;
+        ejecutarFiltroCombinado();
+        actualizarCarrito();
+        actualizarMuestreoDrop();
+    }
+
+    function alterarPipeline(nuevoPipeline) {
+        pipelineActivo = nuevoPipeline;
+        document.querySelectorAll('.category-pipeline .pipeline-btn').forEach(b => b.classList.remove('active'));
+        const pipeBtn = document.getElementById('pipe-' + nuevoPipeline);
+        if(pipeBtn) pipeBtn.classList.add('active');
+        aiScoringMap = null;
+        ejecutarFiltroCombinado();
+    }
+
+    function setChipFilter(targetChip) {
+        chipFiltroActivo = targetChip;
+        document.querySelectorAll('.luxury-chips .chip').forEach(c => c.classList.remove('active'));
+        const mappedId = targetChip === 'todos' ? 'all' : targetChip === 'nuevo' ? 'new' : targetChip === 'popular' ? 'hot' : 'fav';
+        const targetBtn = document.getElementById('chip-' + mappedId);
+        if(targetBtn) targetBtn.classList.add('active');
+        ejecutarFiltroCombinado();
+    }
+
+    function toggleFavorito(id) {
+        const posicion = wishlist.indexOf(id);
+        if(posicion > -1) wishlist.splice(posicion, 1);
+        else wishlist.push(id);
+        localStorage.setItem('m12_wishlist', JSON.stringify(wishlist));
+        ejecutarFiltroCombinado();
+    }
+
+    function ejecutarFiltroCombinado() {
+        const searchInput = document.getElementById('luxury-search-input');
+        const queryText = searchInput ? searchInput.value.toLowerCase() : '';
+        let coleccionObjetivo = [];
+
+        if(aiScoringMap) {
+            coleccionObjetivo = [...VAULT_PRODUCTOS.mujer, ...VAULT_PRODUCTOS.hombre, ...VAULT_PRODUCTOS.calzado].filter(p => aiScoringMap[p.id] !== undefined);
+            coleccionObjetivo.sort((a,b) => aiScoringMap[b.id] - aiScoringMap[a.id]);
+        } else {
+            if(chipFiltroActivo === 'favoritos') {
+                coleccionObjetivo = [...VAULT_PRODUCTOS.mujer, ...VAULT_PRODUCTOS.hombre, ...VAULT_PRODUCTOS.calzado].filter(p => wishlist.includes(p.id));
+            } else {
+                coleccionObjetivo = VAULT_PRODUCTOS[pipelineActivo];
+                if(chipFiltroActivo !== 'todos') coleccionObjetivo = coleccionObjetivo.filter(p => p.tag === chipFiltroActivo);
+            }
+        }
+
+        if(queryText) {
+            coleccionObjetivo = coleccionObjetivo.filter(p => p.name.toLowerCase().includes(queryText) || p.keywords.some(k => k.includes(queryText)));
+        }
+
+        renderizarExpositor(coleccionObjetivo);
+    }
+
+    function renderizarExpositor(productosAFiltro) {
+        const container = document.getElementById('couture-grid-target');
+        if(!container) return; container.innerHTML = '';
+
+        if(productosAFiltro.length === 0) {
+            container.innerHTML = `<div style="grid-column: span 4; text-align:center; padding: 80px 0; color: var(--luxury-gray-600); font-weight:200;">Ninguna prenda coincide con la búsqueda activa...</div>`;
+            return;
+        }
+
+        productosAFiltro.forEach(prod => {
+            const tallaElegida = selectedSizesState[prod.id] || prod.sizes[0];
+            const esDeseado = wishlist.includes(prod.id);
+            let badgeHTML = prod.tag ? `<span class="editorial-badge ${prod.tag === 'popular' ? 'limited' : ''}">${prod.tag === 'nuevo' ? 'Novedad' : 'Exclusivo'}</span>` : '';
+            let aiMatchHTML = (aiScoringMap && aiScoringMap[prod.id]) ? `<div class="ai-match-rate">✦ Match de Estilo: ${72 + (aiScoringMap[prod.id] * 9)}%</div>` : '';
+
+            container.innerHTML += `
+                <div class="luxury-card">
+                    <div class="card-media-vault">
+                        <img src="${prod.img}" class="card-img" onerror="this.src='https://placehold.co/500x700/f4f4f5/09090b?text=Maison+GB';">
+                        ${badgeHTML}
+                        <button class="wish-action-trigger ${esDeseado ? 'active' : ''}" onclick="toggleFavorito(${prod.id})">${esDeseado ? '♥' : '♡'}</button>
+                        <button class="instant-chat-anchor" onclick="solicitarAsistenciaDirecta(${prod.id}, '${prod.name}')">💬</button>
+                    </div>
+                    <div class="card-details-vault">
+                        ${aiMatchHTML}
+                        <div class="luxury-reviews"><span class="star-gold">★</span><span>4.9</span></div>
+                        <h3 class="luxury-product-title">${prod.name}</h3>
+                        <div class="luxury-price-row">
+                            <span class="price-current">${formatLuxuryPrice(prod.priceUSD)}</span>
+                        </div>
+                        <div class="luxury-size-row">
+                            ${prod.sizes.map(s => `<button class="luxury-size-btn ${tallaElegida === s ? 'selected' : ''}" onclick="definirTalla(${prod.id}, '${s}')">${s}</button>`).join('')}
+                        </div>
+                        <button class="ai-size-link" onclick="abrirPredictorTallasIA(${prod.id})">✨ Calcular mi talla con IA</button>
+                        <button class="luxury-btn-add" onclick="inyectarACarrito(${prod.id})">Añadir al Carrito</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function definirTalla(prodId, size) {
+        selectedSizesState[prodId] = size;
+        localStorage.setItem('m12_sizes', JSON.stringify(selectedSizesState));
+        ejecutarFiltroCombinado();
+    }
+
+    function rastrearMatrizProducto(id) {
+        for (let cat in VAULT_PRODUCTOS) {
+            const p = VAULT_PRODUCTOS[cat].find(item => item.id === id);
+            if (p) return p;
+        }
+        return null;
+    }
+
+    function inyectarACarrito(id) {
+        const item = rastrearMatrizProducto(id);
+        if(!item) return;
+        
+        registroClicksProductos[id] = (registroClicksProductos[id] || 0) + 1;
+        localStorage.setItem('m12_metric_prods', JSON.stringify(registroClicksProductos));
+
+        const tallaCierre = selectedSizesState[item.id] || item.sizes[0];
+        cart.push({ ...item, sizeChosen: tallaCierre });
+        localStorage.setItem('m12_cart', JSON.stringify(cart));
+        actualizarCarrito();
+        triggerToast(`🛒 '${item.name}' añadido al carrito.`);
+    }
+
+    function solicitarAsistenciaDirecta(id, name) {
+        const item = rastrearMatrizProducto(id);
+        const tallaCierre = selectedSizesState[id] || (item ? item.sizes[0] : 'M');
+        window.open("https://api.whatsapp.com/send?phone=" + COUTURE_PHONE + "&text=" + encodeURIComponent(`Hola Concierge,\nme interesa consultar sobre:\n✨ *${name}* [Talla elegida: ${tallaCierre}].`), '_blank');
+    }
+
+    function actualizarCarrito() {
+        const badge = document.getElementById('cart-badge');
+        const btnMuestreo = document.getElementById('luxury-master-submit');
+        const formVault = document.getElementById('concierge-form-target');
+        if(!badge || !btnMuestreo || !formVault) return;
+        
+        badge.innerText = cart.length;
+        
+        const targetContainer = document.getElementById('cart-items-target');
+        if(!targetContainer) return;
+        targetContainer.innerHTML = '';
+        let acumuladoUSD = 0;
+
+        if(cart.length === 0) {
+            targetContainer.innerHTML = `<div style="text-align:center; padding: 60px 0; color: var(--luxury-gray-600);">Su carrito está vacío actualmente.</div>`;
+            formVault.style.display = 'none'; stageFormularioActivo = false;
+            btnMuestreo.innerText = "Proceder al Pago"; btnMuestreo.disabled = true;
+        } else {
+            btnMuestreo.disabled = false;
+            if(stageFormularioActivo) formVault.style.display = 'block';
+        }
+
+        cart.forEach((articulo, pos) => {
+            acumuladoUSD += articulo.priceUSD;
+            targetContainer.innerHTML += `
+                <div class="cart-item">
+                    <img src="${articulo.img}" class="cart-item-img">
+                    <div class="cart-item-details">
+                        <h4 class="cart-item-name">${articulo.name}</h4>
+                        <div class="cart-item-meta">Talla: ${articulo.sizeChosen}</div>
+                        <div class="cart-item-price">${formatLuxuryPrice(articulo.priceUSD)}</div>
+                    </div>
+                    <button class="cart-item-remove" onclick="removerDeCarrito(${pos})">✕</button>
+                </div>
+            `;
+            
+            if(pos === cart.length - 1) {
+                const itemComplementario = calcularLookComplementario(articulo);
+                if(itemComplementario) {
+                    targetContainer.innerHTML += `
+                        <div class="ai-cross-box">
+                            <img src="${itemComplementario.img}" class="ai-cross-thumb">
+                            <div style="flex:1;">
+                                <div style="font-size:11px; font-weight:700; color:var(--luxury-gold);">Recomendación IA Cruzada</div>
+                                <div style="font-size:13px; font-weight:500;">${itemComplementario.name}</div>
+                            </div>
+                            <button class="promo-btn" style="padding: 6px 12px; font-size:11px;" onclick="inyectarACarrito(${itemComplementario.id})">+ Combinar</button>
+                        </div>
+                    `;
+                }
+            }
+        });
+
+        let totalNetoUSD = acumuladoUSD - (acumuladoUSD * promoDeduccion);
+        document.getElementById('inv-subtotal').innerText = formatLuxuryPrice(acumuladoUSD);
+        
+        const promoRow = document.getElementById('inv-promo-row');
+        const promoVal = document.getElementById('inv-promo-val');
+        if(promoRow && promoVal) {
+            if(promoDeduccion > 0) {
+                promoRow.style.display = 'flex';
+                promoVal.innerText = '-' + formatLuxuryPrice(acumuladoUSD * promoDeduccion);
+            } else { promoRow.style.display = 'none'; }
+        }
+        
+        const invFinal = document.getElementById('inv-final');
+        if(invFinal) invFinal.innerHTML = `<strong>${formatLuxuryPrice(totalNetoUSD)}</strong>`;
+    }
+
+    function removerDeCarrito(posicion) {
+        cart.splice(posicion, 1);
+        localStorage.setItem('m12_cart', JSON.stringify(cart));
+        actualizarCarrito();
+    }
+
+    function aplicarPromocion() {
+        const promoInput = document.getElementById('promo-code');
+        if(!promoInput) return;
+        const codigo = promoInput.value.trim().toUpperCase();
+        if(codigo === 'AI10') {
+            promoDeduccion = 0.10;
+            localStorage.setItem('m12_promo', promoDeduccion);
+            triggerToast('🎟️ Cupón IA del 10% aplicado.'); actualizarCarrito();
+        } else { triggerToast('✕ Cupón no válido.'); }
+    }
+
+    function persistForm() {
+        const n = document.getElementById('c-name');
+        const p = document.getElementById('c-phone');
+        const a = document.getElementById('c-address');
+        const r = document.getElementById('c-ref');
+        const nt = document.getElementById('c-notes');
+
+        localStorage.setItem('m12_concierge_form', JSON.stringify({
+            n: n ? n.value : '', p: p ? p.value : '',
+            a: a ? a.value : '', r: r ? r.value : '',
+            nt: nt ? nt.value : ''
+        }));
+    }
+
+    function recuperarForm() {
+        const d = JSON.parse(localStorage.getItem('m12_concierge_form'));
+        if(d) {
+            const n = document.getElementById('c-name'); if(n) n.value = d.n||''; 
+            const p = document.getElementById('c-phone'); if(p) p.value = d.p||'';
+            const a = document.getElementById('c-address'); if(a) a.value = d.a||''; 
+            const r = document.getElementById('c-ref'); if(r) r.value = d.r||'';
+            const nt = document.getElementById('c-notes'); if(nt) nt.value = d.nt||'';
+        }
+    }
+
+    function avanzarFlujoBoutique() {
+        if(cart.length === 0) return;
+        const formArea = document.getElementById('concierge-form-target');
+        const masterSubmit = document.getElementById('luxury-master-submit');
+        if(!formArea || !masterSubmit) return;
+
+        if(!stageFormularioActivo) {
+            formArea.style.display = 'block'; stageFormularioActivo = true;
+            masterSubmit.innerText = "Enviar pedido por WhatsApp 📲";
+            formArea.scrollIntoView({ behavior: 'smooth' });
+        } else { procesarDespachoFinal(); }
+    }
+
+    function procesarDespachoFinal() {
+        const clienteEl = document.getElementById('c-name');
+        const fonoEl = document.getElementById('c-phone');
+        const direccionEl = document.getElementById('c-address');
+        const finalEl = document.getElementById('inv-final');
+        if(!clienteEl || !fonoEl || !direccionEl || !finalEl) return;
+
+        const cliente = clienteEl.value.trim();
+        const fono = fonoEl.value.trim();
+        const direccion = direccionEl.value.trim();
+        if(!cliente || !fono || !direccion) { triggerToast('⚠️ Completa los campos obligatorios (*).'); return; }
+
+        let text = `🏛️ *MAISON G&B -- EXCLUSIVE ORDER*\n🧾 *PEDIDO:* #GB-${Math.floor(100000 + Math.random()*900000)}\n━━━━━━━━━━━━━━━━━━━━━\n\n`;
+        cart.forEach((art, k) => { text += `• *[${k+1}] ${art.name}* (Talla: ${art.sizeChosen}) - ${formatLuxuryPrice(art.priceUSD)}\n`; });
+        text += `\n👑 *TOTAL NETO:* ${finalEl.innerText}\n━━━━━━━━━━━━━━━━━━━━━\n👤 *Cliente:* ${cliente}\n📍 *Dirección:* ${direccion}\n📞 *Teléfono:* ${fono}`;
+
+        window.open("https://api.whatsapp.com/send?phone=" + COUTURE_PHONE + "&text=" + encodeURIComponent(text), '_blank');
+        setTimeout(() => { cart = []; localStorage.removeItem('m12_cart'); actualizarCarrito(); switchTab('shop'); }, 1500);
+    }
+
+    function abrirAdminPanel() {
+        const mClick = document.getElementById('meta-clicks-ia');
+        const mBag = document.getElementById('meta-items-bag');
+        const mFav = document.getElementById('meta-items-fav');
+        if(mClick) mClick.innerText = clicksConsultasIA;
+        if(mBag) mBag.innerText = cart.length;
+        if(mFav) mFav.innerText = wishlist.length;
+
+        const tbody = document.getElementById('admin-table-body');
+        if(!tbody) return;
+        tbody.innerHTML = '';
+        const universoCompleto = [...VAULT_PRODUCTOS.mujer, ...VAULT_PRODUCTOS.hombre, ...VAULT_PRODUCTOS.calzado];
+        
+        universoCompleto.forEach(p => {
+            const clicks = registroClicksProductos[p.id] || 0;
+            tbody.innerHTML += `<tr><td>${p.id}</td><td>${p.name}</td><td><strong>${clicks}</strong></td></tr>`;
+        });
+        const modal = document.getElementById('admin-modal');
+        if(modal) modal.style.display = 'flex';
+    }
+    function cerrarAdminPanel() { 
+        const modal = document.getElementById('admin-modal');
+        if(modal) modal.style.display = 'none'; 
+    }
+
+    function switchTab(pantallaId) {
+        document.querySelectorAll('.view-canvas').forEach(vc => vc.classList.remove('active'));
+        document.querySelectorAll('.bottom-luxury-nav .bottom-nav-item').forEach(nb => nb.classList.remove('active'));
+        
+        const subPipeline = document.getElementById('header-pipeline-sub');
+        const mainScope = document.getElementById('main-scope');
+        
+        if (pantallaId === 'shop') {
+            if(subPipeline) {
+                subPipeline.style.opacity = '1';
+                subPipeline.style.pointerEvents = 'auto';
+                subPipeline.style.transform = 'translateY(0)';
+                subPipeline.style.display = 'flex';
+            }
+            if(mainScope) mainScope.style.marginTop = '155px';
+        } else {
+            if(subPipeline) {
+                subPipeline.style.opacity = '0';
+                subPipeline.style.pointerEvents = 'none';
+                subPipeline.style.transform = 'translateY(-5px)';
+                setTimeout(() => { if(!document.getElementById('nav-shop').classList.contains('active')) subPipeline.style.display = 'none'; }, 400);
+            }
+            if(mainScope) mainScope.style.marginTop = '110px';
+        }
+
+        const screenView = document.getElementById(pantallaId + '-screen');
+        const navBtn = document.getElementById('nav-' + pantallaId);
+        if(screenView) screenView.classList.add('active');
+        if(navBtn) navBtn.classList.add('active');
+        
+        if(pantallaId === 'mirror') {
+            renderRackProbador();
+        }
+    }
+
+    window.onload = function() {
+        ejecutarFiltroCombinado();
+        actualizarCarrito();
+        recuperarForm();
+        renderRackProbador();
+        inicializarRelojDrop();
+    };
+</script>
+</body>
+</html>
